@@ -1,22 +1,14 @@
-# Nombre del juego (<- borrar y completar)
+/////Idea 1 
 
-## Equipo de desarrollo
+El juego intentara replicar la idea del juego SIMON, el cual se basa en reproducir una secuencia aleatoria luminosa de 4 colores la cual el jugador tendra que replicar. Dicha secuencia aumentara la cantidad de componentes de la misma, es decir a medida que avancen los niveles mayor sera la cantidad de luces que aparecen en la misma. Ademas, a medida que avancen los niveles tambien aumentara la velocidad de la misma y se agregaran colores.
 
-- Alguien
-- Persona
-- etc.
+Por otro lado, el jugador tendra 3 vidas al comenzar el juego. Cada vez que no acierte la secuencia perdera una vida, estas no se reinician con el paso de los niveles. Ademas existiran 3 power-ups.
 
-## Capturas
+--Power-up 1
+Este power-up te da una vida exta a partir del nivel 5
 
-(agregar)
+--Power-up 2 
+Este power-up suma tiempo para 
 
-## Reglas de Juego / Instrucciones
-
-(Escribirlas)
-
-
-## Otros
-
-- Curso/Facultad
-- Versión de wollok
-- Una vez terminado, no tenemos problemas en que el repositorio sea público / queremos manternerlo privado
+--Power-up 3
+Este power-up hace que todos los colores sean validos por un determinado tiempo, se otorgara al jugador cuando realice 4 niveles seguidos sin perder ninguna vida
