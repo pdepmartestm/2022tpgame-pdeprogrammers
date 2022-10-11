@@ -23,14 +23,15 @@ object pantallaInicial {
         game.width(23)
         game.height(23)
         game.addVisual(controles)
-        keyboard.q().onPressDo({teclado.metodo(naranja)})
-        keyboard.w().onPressDo({teclado.metodo(rojo)})
-        keyboard.e().onPressDo({teclado.metodo(amarillo)}) 
-        keyboard.s().onPressDo({teclado.metodo(verde)}) 
-        keyboard.d().onPressDo({teclado.metodo(azul)})
-        keyboard.r().onPressDo({teclado.metodo(violeta)})  
+        keyboard.q().onPressDo({teclado.metodo(rojo)})
+        keyboard.w().onPressDo({teclado.metodo(amarillo)})
+        keyboard.e().onPressDo({teclado.metodo(verde)}) 
+        keyboard.r().onPressDo({teclado.metodo(azul)}) 
+        keyboard.t().onPressDo({teclado.metodo(naranja)})
+        keyboard.y().onPressDo({teclado.metodo(violeta)})  
         keyboard.space().onPressDo({self.jugar()})
         keyboard.enter().onPressDo({colores.encenderColores()})
+        keyboard.enter().onPressDo({reloj.iniciar()})
     }
     
     method jugar(){
@@ -40,8 +41,13 @@ object pantallaInicial {
         game.addVisual(rojo)
         game.addVisual(naranja)
         game.addVisual(violeta)
+        game.addVisual(gameOver)
+        game.addVisual(reloj)
+        game.removeVisual(gameOver)
+        //game.addVisual(gameOver)
         game.removeVisual(controles)
         //colores.encenderColores()    
+        //reloj.iniciar()
     }
 }
 
@@ -78,9 +84,11 @@ const azul = new Boton(color="azul",x=12,y=6)
 const violeta = new Boton(color="violeta", x=12, y=3)
 const naranja = new Boton(color="naranja", x=2, y=3)
 
+
+
 object colores{
 
-    const listaColores = [[azul,amarillo,rojo,verde,violeta,naranja].anyOne()]
+    const listaColores = [rojo]
     var largoLista=1
     var posicion=1
     method agregarColor(){
@@ -96,15 +104,15 @@ object colores{
 			posicion=1
 			teclado.desbloqueado(true)
 		})
-		reloj.iniciar()
+		//reloj.iniciar()
 	}
 	method encender(){
 		listaColores.get(posicion-1).encendido()
 		posicion++
 	}
-	method secuenciaCorrecta(){
+	/*method secuenciaCorrecta(){
 		
-	}
+	}*/
 	method colorCorrecto(color){
 		if (listaColores.get(posicion-1)==color){
 			posicion++
@@ -124,6 +132,8 @@ object colores{
 			game.removeVisual(amarillo)
 			game.removeVisual(verde)
 			game.addVisual(gameOver)
+			reloj.detener()
+			game.schedule(1000,{game.removeVisual(gameOver)})
 		}
 	}
 }
@@ -140,7 +150,7 @@ object reloj {
 	}
 	method iniciar(){
 		tiempo = 0
-		game.onTick(100,"tiempo",{self.pasarTiempo()})
+		game.onTick(1000,"tiempo",{self.pasarTiempo()})
 	}
 	method detener(){
 		game.removeTickEvent("tiempo")
@@ -156,12 +166,12 @@ object gameOver {
 object controles{
 	method position() = game.center()
 	method text() = "Controls:
-					SPACE: Add Visuals
-					ENTER: Start Game
-					Q: Orange
-					W: Red
-					E: Yellow
-					S: Green 
-					D: Blue
-					R: Violet"
+SPACE: Add Visuals
+ENTER: Start Game
+Q: Red
+W: Yellow
+E: Green
+R: Blue
+T: Orange
+Y: Violet"
 }
