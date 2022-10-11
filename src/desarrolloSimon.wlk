@@ -88,7 +88,7 @@ const naranja = new Boton(color="naranja", x=2, y=3)
 
 object colores{
 
-    const listaColores = [rojo]
+    const listaColores = [[azul,amarillo,rojo,verde,violeta,naranja].anyOne()]
     var largoLista=1
     var posicion=1
     method agregarColor(){
