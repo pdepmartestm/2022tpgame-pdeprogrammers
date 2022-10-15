@@ -1,0 +1,10 @@
+import desarrolloSimon.*
+import wollok.game.*
+
+  
+program simon {
+
+	menu.inicio()
+	game.start()
+	
+} 
