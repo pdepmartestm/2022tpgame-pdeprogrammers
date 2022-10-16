@@ -29,8 +29,8 @@ object teclado{
 
 class Boton{
 	var property color
-	const imagen0=color+"01.png"
-	const imagen1=color+"11.png"
+	const imagen0=color+".png"
+	const imagen1=color+"1.png"
 	var imagenActual=imagen0
 	
 	const sonido=color+".mp3"
@@ -161,7 +161,6 @@ Y: Violet"
 }
 
 
-
 object menu{
 	const opciones=[op2,op1,op0]
 	var index=0
@@ -171,7 +170,7 @@ object menu{
 		keyboard.down().onPressDo({if(index!=2){self.cambiar(1)}})
 
 		game.title("Simon P de Programmers")
-       // game.boardGround("fondo.png")
+        game.boardGround("fondoGalaxia.png")
         game.width(20)
         game.height(20)
         game.addVisual(op0)
@@ -187,17 +186,18 @@ object menu{
 	}
 }
 
-const op0=new Opcion(nombre="op0",y=4,modo=modoFacil)
-const op1=new Opcion(nombre="op1",y=6,modo=modoFacil)
-const op2=new Opcion(nombre="op2",y=8,modo=modoFacil)
-const puntero=new Opcion(nombre="puntero",y=8,modo=modoFacil)
+const op0=new Opcion(nombre="hard",y=4,modo=modoFacil)
+const op1=new Opcion(nombre="medium",y=6,modo=modoMedio)
+const op2=new Opcion(nombre="easy",y=8,modo=modoFacil)
+const puntero=new Opcion(nombre="pointer",x=3,y=8,modo=modoFacil)
 
 class Opcion{
 	const nombre
 	const modo
 	var property y
+	var property x = 5
 	method image()=nombre+".png"
-	method position()=game.at(5,y)
+	method position()=game.at(x,y)
 	method jugar(){
 		game.clear()
 		modo.jugar()
