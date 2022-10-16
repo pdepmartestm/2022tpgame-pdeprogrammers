@@ -7,4 +7,4 @@ program simon {
 	menu.inicio()
 	game.start()
 	
-} 
+}

@@ -1,7 +1,5 @@
 import wollok.game.*
 
-
-
 object teclado{
 	var property desbloqueado=true
 	var property listaTeclado=[]
@@ -69,8 +67,6 @@ const controlesModoMedio=[
 	keyboard.q().onPressDo({teclado.enciendeColor(naranja)}),
     keyboard.r().onPressDo({teclado.enciendeColor(violeta)})
 ]
-
-const modoVoid=new ModoDeJuego(colores=[],controles=[])
 const modoFacil=new ModoDeJuego(colores=[azul,verde,amarillo,rojo],controles=controlesModoFacil)
 const modoMedio=new ModoDeJuego(colores=[azul,verde,amarillo,rojo,naranja,violeta],controles=controlesModoFacil+controlesModoMedio)
 
@@ -194,7 +190,7 @@ object menu{
 const op0=new Opcion(nombre="op0",y=4,modo=modoFacil)
 const op1=new Opcion(nombre="op1",y=6,modo=modoFacil)
 const op2=new Opcion(nombre="op2",y=8,modo=modoFacil)
-const puntero=new Opcion(nombre="puntero",y=8,modo=modoVoid)
+const puntero=new Opcion(nombre="puntero",y=8,modo=modoFacil)
 
 class Opcion{
 	const nombre
