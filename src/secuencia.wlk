@@ -36,6 +36,7 @@ object secuencia{
 			jugador.desbloqueado(true)
 		})
 	}
+	
 	method encender(){
 		listaSecuencia.get(posicion).encendido()
 		posicion = posicion + 1

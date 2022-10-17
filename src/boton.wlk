@@ -1,6 +1,5 @@
 import wollok.game.*
 
-
 class Boton{
 	var property color
 	const imagen0=color+".png"

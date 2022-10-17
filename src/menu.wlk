@@ -21,7 +21,7 @@ object menuInicial{
 	method eleccion(){
 		keyboard.up().onPressDo({if(indexI!=0){self.cambiarI(-1)}})
 		keyboard.down().onPressDo({if(indexI!=1){self.cambiarI(1)}})
-		game.boardGround("fondoGalaxia.png")
+		game.boardGround("black.png")
         game.width(20)
         game.height(20)
         game.addVisual(iniciarJuego)
@@ -51,7 +51,7 @@ object elegirDificultad{
 		keyboard.down().onPressDo({if(index!=2){self.cambiar(1)}})
 
 		game.title("Simon P de Programmers")
-        game.boardGround("fondoGalaxia.png")
+        game.boardGround("black.png")
         game.width(20)
         game.height(20)
         game.addVisual(hard)
@@ -81,6 +81,16 @@ object puntero{
 	method position()=game.at(x,y)
 }
 
+object settings{
+	method position() = game.at(2,3)
+	method image() = "settings.png"
+}
+
+object difficulty{
+	method position() = game.at(3,13)
+	method image() = "difficulty.png"
+}
+
 class Opcion{
 	const nombre
 	var modo
@@ -93,13 +103,15 @@ class Opcion{
 	
 	method iniciarJuego(){
 		game.clear()
+		game.addVisual(difficulty)
 		elegirDificultad.dificultades()
 	}
 	
 	method controless(){
 		game.clear()
-		game.addVisual("settings.png")
+		game.addVisual(settings)
 		keyboard.backspace().onPressDo({menuInicial.eleccion()})
+		keyboard.backspace().onPressDo({game.removeVisual(settings)})
 	}
 	
 	method jugar(){
