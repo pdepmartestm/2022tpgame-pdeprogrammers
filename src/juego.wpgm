@@ -4,7 +4,7 @@ import wollok.game.*
   
 program simon {
 
-	menu.inicio()
+	menuInicial.eleccion()
 	game.start()
 	
 }
