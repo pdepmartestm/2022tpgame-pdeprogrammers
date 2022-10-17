@@ -62,7 +62,7 @@ method secuenciaCorrecta(){
 
 object vidasDelJugador{
 	
-	method text() = "vidas: " + jugador.cantidadVidas().toString()
+	method image() = "vida_" + jugador.cantidadVidas().toString() + ".png"
 	method position() = game.at(17, 19)
 	
 }
