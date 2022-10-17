@@ -39,6 +39,7 @@ class ModoDeJuego{
 		reloj.iniciar()
 		control.controles()
 		colores.forEach({unColor=>game.addVisual(unColor)})
+		game.addVisual(vidasDelJugador)
 		secuencia.coloresDisponibles(colores)
 		secuencia.iniciarSecuencia()
 	}
