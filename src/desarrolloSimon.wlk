@@ -1,29 +1,52 @@
 import wollok.game.*
 
-object teclado{
+object jugador{
 	var property desbloqueado=true
-	var property listaTeclado=[]
+	var property listajugador=[]
+	var property vidas = 2
+	const powers = [system32, aumentarTiempo, aumentarVidas, aumentarColores, reducirColores] 
+	var puntuacionMasAlta
+	
 	method enciendeColor(color){
 		if(desbloqueado){
 			desbloqueado=false
 			color.encendido()
-			listaTeclado.add(color)
+			listajugador.add(color)
 			game.schedule(200,{desbloqueado=true})
 			self.secuenciaCorrecta()
 		}
 	}
+	
 	method secuenciaCorrecta(){
 		const listaSecuencia=secuencia.listaSecuencia()
-		const tam=listaTeclado.size()
-		if (listaSecuencia.take(tam)!=listaTeclado){
-			listaTeclado=[]
+		const tam=listajugador.size()
+		if (listaSecuencia.take(tam)!=listajugador){
+			listajugador=[]
 			gameOver.activar()
 		}
-		else if(listaSecuencia==listaTeclado){
+		else if(listaSecuencia==listajugador){
+			if(tam%5==0){
+				self.agregarPowerUp()
+			}
 			game.schedule(250,{desbloqueado=false})
-			listaTeclado=[]
-			secuencia.agregarColor()
+			listajugador=[]
+			secuencia.iniciarSecuencia()
 		}
+		puntuacionMasAlta=(tam).max(puntuacionMasAlta)
+	}
+
+	method sumarVida(){
+		vidas=(vidas+1).min(3)
+	}
+	
+	method restarVida(){
+		vidas=(vidas-1).max(1)
+	}
+
+	method cantidadVidas()=vidas
+
+	method agregarPowerUp(){
+		powers.anyOne()
 	}
 }
 
@@ -56,28 +79,40 @@ const azul = new Boton(color="azul",x=10,y=5)
 const violeta = new Boton(color="violeta", x=10, y=2)
 const naranja = new Boton(color="naranja", x=2, y=2)
 
-const controlesModoFacil=[
-		keyboard.w().onPressDo({teclado.enciendeColor(rojo)}),
-        keyboard.e().onPressDo({teclado.enciendeColor(amarillo)}),
-        keyboard.s().onPressDo({teclado.enciendeColor(verde)}),
-        keyboard.d().onPressDo({teclado.enciendeColor(azul)})
-		]
+class Controles{
+	method controles(){
+		keyboard.w().onPressDo({jugador.enciendeColor(rojo)})
+        keyboard.e().onPressDo({jugador.enciendeColor(amarillo)})
+        keyboard.s().onPressDo({jugador.enciendeColor(verde)})
+        keyboard.d().onPressDo({jugador.enciendeColor(azul)})
+	}
+}
 
-const controlesModoMedio=[
-	keyboard.q().onPressDo({teclado.enciendeColor(naranja)}),
-    keyboard.r().onPressDo({teclado.enciendeColor(violeta)})
-]
-const modoFacil=new ModoDeJuego(colores=[azul,verde,amarillo,rojo],controles=controlesModoFacil)
-const modoMedio=new ModoDeJuego(colores=[azul,verde,amarillo,rojo,naranja,violeta],controles=controlesModoFacil+controlesModoMedio)
+const controlesMF=new Controles()
+
+object controlesMM inherits Controles{
+	override method controles(){
+		super()
+		keyboard.q().onPressDo({jugador.enciendeColor(naranja)})
+    	keyboard.r().onPressDo({jugador.enciendeColor(violeta)})
+	}
+}
+
+const coloresMF=[azul,verde,amarillo,rojo]
+const coloresMM=coloresMF+[violeta,naranja]
+
+const modoFacil=new ModoDeJuego(colores=coloresMF,control=controlesMF)
+const modoMedio=new ModoDeJuego(colores=coloresMM,control=controlesMM)
 
 class ModoDeJuego{
 	const property colores
-	const property controles
+	const control
 	method jugar(){
-		self.controles()
+		//game.addVisual(centro)
+		control.controles()
 		colores.forEach({unColor=>game.addVisual(unColor)})
 		secuencia.coloresDisponibles(colores)
-		secuencia.agregarColor()
+		secuencia.iniciarSecuencia()
 	}
 }
 
@@ -86,11 +121,14 @@ object secuencia{
     const listaSecuencia = []
     var largoLista=0
     var posicion=0
+	method iniciarSecuencia(){
+		self.agregarColor()
+		self.encenderColores()
+	}
     method agregarColor(){
         const nuevoColor = coloresDisponibles.anyOne()
         listaSecuencia.add(nuevoColor)
-        largoLista++
-        self.encenderColores()
+        largoLista = largoLista + 1
     }
     
     method coloresDisponibles(lista){
@@ -100,23 +138,30 @@ object secuencia{
 	method listaSecuencia()=listaSecuencia
 	
     method encenderColores(){
-    	teclado.desbloqueado(false)
+    	jugador.desbloqueado(false)
 		game.onTick(1000,"a",{self.encender()})
 		game.schedule(1000*(largoLista+1),{
 			game.removeTickEvent("a")
 			posicion=0
-			teclado.desbloqueado(true)
+			jugador.desbloqueado(true)
 		})
 	}
 	method encender(){
 		listaSecuencia.get(posicion).encendido()
-		posicion++
+		posicion = posicion + 1
+	}
+	method reducirSecuencia(){
+		listaSecuencia.take(largoLista.div(4))
+	}
+	method aumentarSecuencia(){
+		const cantidad=[3,4,5].anyOne()
+		cantidad.times({_=>self.agregarColor()})
 	}
 }
 
 object reloj {
 	
-	var property tiempo =60
+	var property tiempo = 60
 	
 	method text() = tiempo.toString()
 	method position() = game.at(1, game.height()-1)
@@ -125,16 +170,21 @@ object reloj {
 		if (tiempo==0){
 			gameOver.activar()
 			self.detener()
-			}
-		else{
-			tiempo-=1
-			}
+		}else{
+			tiempo = tiempo - 1
+		}
 	}
 	method iniciar(){
 		game.onTick(1000,"tiempo",{self.pasarTiempo()})
 	}
 	method detener(){
 		game.removeTickEvent("tiempo")
+	}
+	method sumarTiempo(cantidad){
+		tiempo = tiempo + cantidad
+	}
+	method restarTiempo(cantidad){
+		tiempo=(tiempo-cantidad).max(1)
 	}
 }
 
@@ -147,25 +197,51 @@ object gameOver {
 	}
 }
 
-object settings{
-	method position() = game.center()
-	method text() = "Controls:
-SPACE: Add Visuals
-ENTER: Start Game
-Q: Red
-W: Yellow
-E: Green
-R: Blue
-T: Orange
-Y: Violet"
+// object settings{
+// 	method position() = game.center()
+// 	method text() = "Controls:
+// SPACE: Add Visuals
+// ENTER: Start Game
+// Q: Red
+// W: Yellow
+// E: Green
+// R: Blue
+// T: Orange
+// Y: Violet"
+// }
+
+object menuInicial{
+	const opcionesMenu=[iniciarJuego,controls]
+	var indexI=0
+	var actual=iniciarJuego
+	
+	method eleccion(){
+		keyboard.up().onPressDo({if(indexI!=0){self.cambiarI(-1)}})
+		keyboard.down().onPressDo({if(indexI!=1){self.cambiarI(1)}})
+		game.boardGround("fondoGalaxia.png")
+        game.width(20)
+        game.height(20)
+        game.addVisual(iniciarJuego)
+        game.addVisual(controls)
+        game.addVisual(puntero)
+        keyboard.enter().onPressDo({if(indexI==0){actual.iniciarJuego()}})
+        keyboard.enter().onPressDo({if(indexI==1){actual.controless()}})
+		
+	}
+	
+	method cambiarI(cant){
+		indexI = indexI + cant
+		actual=opcionesMenu.get(indexI)
+		puntero.y(actual.y())
+	}
 }
 
-
-object menu{
-	const opciones=[op2,op1,op0]
+object elegirDificultad{
+	const opciones=[easy,medium,hard]
 	var index=0
-	var actual=op2
-	method inicio(){
+	var actual=easy
+	
+	method dificultades(){
 		keyboard.up().onPressDo({if(index!=0){self.cambiar(-1)}})
 		keyboard.down().onPressDo({if(index!=2){self.cambiar(1)}})
 
@@ -173,9 +249,9 @@ object menu{
         game.boardGround("fondoGalaxia.png")
         game.width(20)
         game.height(20)
-        game.addVisual(op0)
-        game.addVisual(op1)
-        game.addVisual(op2)
+        game.addVisual(hard)
+        game.addVisual(medium)
+        game.addVisual(easy)
         game.addVisual(puntero)
         keyboard.enter().onPressDo({actual.jugar()})
 	}
@@ -186,20 +262,92 @@ object menu{
 	}
 }
 
-const op0=new Opcion(nombre="hard",y=4,modo=modoFacil)
-const op1=new Opcion(nombre="medium",y=6,modo=modoMedio)
-const op2=new Opcion(nombre="easy",y=8,modo=modoFacil)
-const puntero=new Opcion(nombre="pointer",x=3,y=8,modo=modoFacil)
+const hard=new Opcion(nombre="hard",y=4,modo=modoFacil)
+const medium=new Opcion(nombre="medium",y=6,modo=modoMedio)
+const easy=new Opcion(nombre="easy",y=8,modo=modoFacil)
+const iniciarJuego=new Opcion(nombre="iniciarJuego", y=8, modo=modoFacil)
+const controls=new Opcion(nombre="controls", y=6, modo=modoFacil)
+
+object puntero{
+	const x=3
+	var property y=8
+	method image()="pointer.png"
+	method position()=game.at(x,y)
+}
 
 class Opcion{
 	const nombre
-	const modo
+	var modo
 	var property y
 	var property x = 5
+	
 	method image()=nombre+".png"
+	
 	method position()=game.at(x,y)
+	
+	method iniciarJuego(){
+		game.clear()
+		elegirDificultad.dificultades()
+	}
+	
+	method controless(){
+		game.clear()
+		game.addVisual("settings.png")
+		keyboard.backspace().onPressDo({menuInicial.eleccion()})
+	}
+	
 	method jugar(){
 		game.clear()
 		modo.jugar()
+	}
+}
+
+class PowerUp{
+
+	method aplicarPowerUp(){}
+
+}
+
+object aumentarTiempo inherits PowerUp{
+	const segundos=[5,10,15]
+	override method aplicarPowerUp(){
+		reloj.sumarTiempo(segundos.anyOne())
+	}
+}
+
+object reducirTiempo inherits PowerUp{
+	const segundos=[5,10,15]
+	override method aplicarPowerUp(){
+		reloj.restarTiempo(segundos.anyOne())
+	}
+}
+
+object aumentarVidas inherits PowerUp{
+	override method aplicarPowerUp(){
+		jugador.sumarVida()
+	}
+}
+
+object reducirVidas inherits PowerUp{
+	override method aplicarPowerUp(){
+		jugador.restarVida()
+	}
+}
+
+object reducirColores inherits PowerUp{
+	override method aplicarPowerUp(){
+		secuencia.reducirSecuencia()
+	}
+}
+
+object system32 inherits PowerUp{
+	override method aplicarPowerUp(){
+		gameOver.activar()
+	}
+}
+
+object aumentarColores inherits PowerUp{
+	override method aplicarPowerUp(){
+		secuencia.aumentarSecuencia()
 	}
 }
