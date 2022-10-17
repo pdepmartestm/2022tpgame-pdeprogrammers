@@ -25,6 +25,7 @@ method secuenciaCorrecta(){
 		const tam=listajugador.size()
 		if (listaSecuencia.take(tam)!=listajugador){
 				self.restarVida()
+				listajugador=[]
 		}
 		else if(listaSecuencia==listajugador){
 			if(tam%5==0){
