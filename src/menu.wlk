@@ -2,8 +2,10 @@ import wollok.game.*
 import modoDeJuego.*
 
 object gameOver {
-	method position() = game.center()
-	method text() = "GAME OVER"
+	//method position() = game.center()
+	//method text() = "GAME OVER"
+	method position() = game.at(4,7)
+	method image() = "gameover.png"
 	method activar(){
 		game.clear()
 		game.sound("loser.mp3").play()
