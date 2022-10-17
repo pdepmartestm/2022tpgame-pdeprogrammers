@@ -59,3 +59,10 @@ method secuenciaCorrecta(){
 		powers.anyOne().aplicarPowerUp()
 	}
 }
+
+object vidasDelJugador{
+	
+	method text() = "vidas: " + jugador.cantidadVidas().toString()
+	method position() = game.at(17, 19)
+	
+}
