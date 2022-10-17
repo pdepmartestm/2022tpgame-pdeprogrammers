@@ -1,0 +1,16 @@
+import wollok.game.*
+import menu.*
+import jugador.*
+import boton.*
+import modoDeJuego.*
+import secuencia.*
+import reloj.*
+import powerUp.*
+
+  
+program simon {
+
+	menuInicial.eleccion()
+	game.start()
+	
+}
