@@ -4,8 +4,8 @@ object jugador{
 	var property desbloqueado=true
 	var property listajugador=[]
 	var property vidas = 2
-	const powers = [system32, aumentarTiempo, aumentarVidas, aumentarColores, reducirColores] 
-	var puntuacionMasAlta
+	const powers = [aumentarTiempo, reducirTiempo, aumentarVidas, reducirVidas, aumentarColores, reducirColores]
+	var puntuacionMasAlta=0
 	
 	method enciendeColor(color){
 		if(desbloqueado){
@@ -21,8 +21,14 @@ object jugador{
 		const listaSecuencia=secuencia.listaSecuencia()
 		const tam=listajugador.size()
 		if (listaSecuencia.take(tam)!=listajugador){
-			listajugador=[]
-			gameOver.activar()
+			if(vidas==1){
+				listajugador=[]
+				gameOver.activar()
+			}
+			else{
+				vidas=vidas-1
+				secuencia.encenderColores()
+			}
 		}
 		else if(listaSecuencia==listajugador){
 			if(tam%5==0){
@@ -46,7 +52,7 @@ object jugador{
 	method cantidadVidas()=vidas
 
 	method agregarPowerUp(){
-		powers.anyOne()
+		powers.anyOne().aplicarPowerUp()
 	}
 }
 
@@ -152,6 +158,7 @@ object secuencia{
 	}
 	method reducirSecuencia(){
 		listaSecuencia.take(largoLista.div(4))
+		largoLista=listaSecuencia.size()
 	}
 	method aumentarSecuencia(){
 		const cantidad=[3,4,5].anyOne()
@@ -246,7 +253,7 @@ object elegirDificultad{
 		keyboard.down().onPressDo({if(index!=2){self.cambiar(1)}})
 
 		game.title("Simon P de Programmers")
-        game.boardGround("fondoGalaxia.png")
+        //game.boardGround("fondoGalaxia.png")
         game.width(20)
         game.height(20)
         game.addVisual(hard)
@@ -328,7 +335,7 @@ object aumentarVidas inherits PowerUp{
 	}
 }
 
-object reducirVidas inherits PowerUp{
+object reducirVidas inherits PowerUp{ 
 	override method aplicarPowerUp(){
 		jugador.restarVida()
 	}
