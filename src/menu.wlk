@@ -6,7 +6,8 @@ object gameOver {
 	method text() = "GAME OVER"
 	method activar(){
 		game.clear()
-		game.addVisual(self)
+		game.sound("loser.mp3").play()
+		game.addVisual(self)		
 	}
 }
 
@@ -31,8 +32,10 @@ object menuInicial{
 	
 	method cambiarI(cant){
 		indexI = indexI + cant
+		game.sound("cambiarmenu.mp3").play()
 		actual=opcionesMenu.get(indexI)
 		puntero.y(actual.y())
+		
 	}
 }
 
@@ -57,6 +60,7 @@ object elegirDificultad{
 	}
 	method cambiar(cant){
 		index+=cant
+		game.sound("cambiarmenu.mp3").play()
 		actual=opciones.get(index)
 		puntero.y(actual.y())
 	}
