@@ -8,7 +8,6 @@ object jugador{
 	var property listajugador=[]
 	var property vidas = 3
 	const powers = [aumentarTiempo, reducirTiempo, aumentarVidas, reducirVidas, aumentarColores, reducirColores]
-	var puntuacionMasAlta=0
 	
 	method enciendeColor(color){
 		if(desbloqueado){
@@ -25,7 +24,6 @@ method secuenciaCorrecta(){
 		const tam=listajugador.size()
 		if (listaSecuencia.take(tam)!=listajugador){
 				self.restarVida()
-				listajugador=[]
 		}
 		else if(listaSecuencia==listajugador){
 			if(tam%5==0){
@@ -35,7 +33,6 @@ method secuenciaCorrecta(){
 			listajugador=[]
 			secuencia.iniciarSecuencia()
 		}
-		puntuacionMasAlta=(tam).max(puntuacionMasAlta)
 	}
 
 	method sumarVida(){
@@ -47,6 +44,7 @@ method secuenciaCorrecta(){
 		listajugador=[]
 		if(vidas == 0 ){			
 			gameOver.activar()
+			vidas=3
 		}
 		else{
 			game.sound("incorrecto.mp3").play()
