@@ -11,7 +11,6 @@ object reloj {
 	method pasarTiempo() {
 		if (tiempo==0){
 			gameOver.activar()
-			self.detener()
 		}else{
 			tiempo = tiempo - 1
 		}
