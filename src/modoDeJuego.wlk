@@ -8,8 +8,8 @@ class Controles{
 	method controles(){
 		keyboard.w().onPressDo({jugador.enciendeColor(rojo)})
         keyboard.e().onPressDo({jugador.enciendeColor(amarillo)})
-        keyboard.r().onPressDo({jugador.enciendeColor(verde)})
-        keyboard.t().onPressDo({jugador.enciendeColor(azul)})
+        keyboard.s().onPressDo({jugador.enciendeColor(verde)})
+        keyboard.d().onPressDo({jugador.enciendeColor(azul)})
 	}
 }
 
@@ -19,7 +19,7 @@ object controlesMM inherits Controles{
 	override method controles(){
 		super()
 		keyboard.q().onPressDo({jugador.enciendeColor(naranja)})
-    	keyboard.y().onPressDo({jugador.enciendeColor(violeta)})
+    	keyboard.r().onPressDo({jugador.enciendeColor(violeta)})
 	}
 }
 
