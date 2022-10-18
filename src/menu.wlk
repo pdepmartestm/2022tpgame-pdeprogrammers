@@ -1,15 +1,24 @@
 import wollok.game.*
+import jugador.*
+import boton.*
 import modoDeJuego.*
+import secuencia.*
+import reloj.*
+import powerUp.*
 
 object gameOver {
-	//method position() = game.center()
-	//method text() = "GAME OVER"
 	method position() = game.at(4,7)
 	method image() = "gameover.png"
 	method activar(){
 		game.clear()
 		game.sound("loser.mp3").play()
 		game.addVisual(self)		
+		keyboard.enter().onPressDo({
+			game.clear()
+			menuInicial.eleccion()
+			reloj.tiempo(60)
+			secuencia.reiniciar()
+		})
 	}
 }
 
@@ -42,19 +51,18 @@ object menuInicial{
 }
 
 object elegirDificultad{
-	const opciones=[easy,medium,hard]
+	const opciones=[easy,medium]
 	var index=0
 	var actual=easy
 	
 	method dificultades(){
 		keyboard.up().onPressDo({if(index!=0){self.cambiar(-1)}})
-		keyboard.down().onPressDo({if(index!=2){self.cambiar(1)}})
+		keyboard.down().onPressDo({if(index!=1){self.cambiar(1)}})
 
 		game.title("Simon P de Programmers")
         game.boardGround("black.png")
         game.width(20)
         game.height(20)
-        game.addVisual(hard)
         game.addVisual(medium)
         game.addVisual(easy)
         game.addVisual(puntero)
@@ -68,7 +76,6 @@ object elegirDificultad{
 	}
 }
 
-const hard=new Opcion(nombre="hard",y=4,modo=modoFacil)
 const medium=new Opcion(nombre="medium",y=6,modo=modoMedio)
 const easy=new Opcion(nombre="easy",y=8,modo=modoFacil)
 const iniciarJuego=new Opcion(nombre="iniciarJuego", y=8, modo=modoFacil)
@@ -119,4 +126,3 @@ class Opcion{
 		modo.jugar()
 	}
 }
-
