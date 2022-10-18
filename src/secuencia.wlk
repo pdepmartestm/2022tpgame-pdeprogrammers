@@ -27,6 +27,12 @@ object secuencia{
     
 	method listaSecuencia()=listaSecuencia
 	
+	method reiniciar(){
+		listaSecuencia.clear()
+		coloresDisponibles.clear()
+		largoLista=0
+	}
+	
     method encenderColores(){
     	jugador.desbloqueado(false)
 		game.onTick(1000,"a",{self.encender()})
