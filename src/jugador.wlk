@@ -48,7 +48,7 @@ method secuenciaCorrecta(){
 		}
 		else{
 			game.sound("incorrecto.mp3").play()
-			secuencia.encenderColores()
+			game.schedule(1500,{secuencia.encenderColores()})
 		}
 	}
 
