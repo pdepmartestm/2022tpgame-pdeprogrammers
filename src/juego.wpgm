@@ -1,8 +1,17 @@
 import wollok.game.*
-import pepita.*
+import menu.*
+import jugador.*
+import boton.*
+import modoDeJuego.*
+import secuencia.*
+import reloj.*
+import powerUp.*
 
-program juego {
-	game.title("Juego Base")
-	game.addVisual(pepita)
+  
+program simon {
+
+	menuInicial.eleccion()
 	game.start()
+	
 }
+
