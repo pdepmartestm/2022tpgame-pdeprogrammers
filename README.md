@@ -12,3 +12,12 @@ Este power-up suma tiempo para los proximos niveles
 
 --Power-up 3
 Este power-up hace que todos los colores sean validos por un determinado tiempo, se otorgara al jugador cuando realice 4 niveles seguidos sin perder ninguna vida
+![image](https://user-images.githubusercontent.com/101908695/205950218-7ebfa4c4-c419-4d2d-be39-c78e8bab1f8f.png)
+
+![image](https://user-images.githubusercontent.com/101908695/205950368-069c9c14-2063-4751-a4ac-5e0d59ab94a8.png)
+
+![image](https://user-images.githubusercontent.com/101908695/205950413-45e71436-8275-418f-875a-5f86a5655bbb.png)
+
+![image](https://user-images.githubusercontent.com/101908695/205950497-488900b6-a490-4574-a45a-71fd81f93c90.png)
+
+![image](https://user-images.githubusercontent.com/101908695/205950712-a6aa9d86-046f-4f61-aeeb-7743f3bc06ee.png)
